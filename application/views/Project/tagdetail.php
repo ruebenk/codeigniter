@@ -1,5 +1,5 @@
 <?php include("header.php") ?>
-        <table style="width:100%">
+        <div style="position:absolute; top:20%;">
 				<?php echo $T_Id; echo "\n"; echo $T_Name; ?>
 				<form action="/Home/followtag/<?php echo $T_Id; ?>" method="POST">
 			 <input type="submit" value="Follow">
@@ -29,7 +29,7 @@
 				 <?php endif; ?>
 					 </tr>
 					 <?php }?>
-	      </table>
+	      </div>
 
 	</body>
 </html>
