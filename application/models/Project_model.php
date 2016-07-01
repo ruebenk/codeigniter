@@ -233,7 +233,7 @@ class Project_Model extends CI_Model
 	    ON d.Q_Id=Answers.Q_Id
 	    WHERE Answers.Flag IS NULL OR Answers.Flag=1
 	    GROUP BY Q_Id
-	    ORDER BY Posted_on)
+	    ORDER BY Posted_on DESC)
 	    AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id";
 		//$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN (SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on) AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id ";
 	  }
@@ -244,7 +244,7 @@ class Project_Model extends CI_Model
 			    ON d.Q_Id=Answers.Q_Id
 			    WHERE Answers.Flag IS NULL OR Answers.Flag=1
 			    GROUP BY Q_Id
-			    ORDER BY Posted_on";
+			    ORDER BY Posted_on DESC";
 		}
 		$query = $this->db->query($sql);
 		$ques=array();
@@ -335,10 +335,10 @@ class Project_Model extends CI_Model
 	{
 		if($id!=0)
 		{
-		$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN (SELECT t.Q_Id,t.Title,t.Description,t.Posted_on,t.Id,COUNT(Answers.A_id)as ans FROM (SELECT Questions.Id,Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Flag FROM Questions RIGHT JOIN (SELECT QuesTag.Q_Id FROM QuesTag WHERE T_Id='$tagid')as v on Questions.Q_Id=v.Q_Id)as t LEFT JOIN Answers ON t.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE t.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY t.Q_Id ORDER BY Posted_on) AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id ";
+		$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN (SELECT t.Q_Id,t.Title,t.Description,t.Posted_on,t.Id,COUNT(Answers.A_id)as ans FROM (SELECT Questions.Id,Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Flag FROM Questions RIGHT JOIN (SELECT QuesTag.Q_Id FROM QuesTag WHERE T_Id='$tagid')as v on Questions.Q_Id=v.Q_Id)as t LEFT JOIN Answers ON t.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE t.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY t.Q_Id ORDER BY Posted_on DESC) AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id ";
 		}
 		else {
-			$sql="SELECT t.Q_Id,t.Title,t.Description,t.Posted_on,t.Id,COUNT(Answers.A_id)as ans FROM (SELECT Questions.Id,Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Flag FROM Questions RIGHT JOIN (SELECT QuesTag.Q_Id FROM QuesTag WHERE T_Id='4')as v on Questions.Q_Id=v.Q_Id)as t LEFT JOIN Answers ON t.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE t.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY t.Q_Id ORDER BY Posted_on";
+			$sql="SELECT t.Q_Id,t.Title,t.Description,t.Posted_on,t.Id,COUNT(Answers.A_id)as ans FROM (SELECT Questions.Id,Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Flag FROM Questions RIGHT JOIN (SELECT QuesTag.Q_Id FROM QuesTag WHERE T_Id='4')as v on Questions.Q_Id=v.Q_Id)as t LEFT JOIN Answers ON t.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE t.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY t.Q_Id ORDER BY Posted_on DESC";
 		}
 	$query = $this->db->query($sql);
 	$ques = array();
@@ -442,15 +442,28 @@ class Project_Model extends CI_Model
 		}
 	}
 
+  public function getrecentans($qid)
+	{
+		$sql="SELECT V.A_id,V.Id,V.Q_Id,V.Answer,V.Replied_on,User.Name FROM User RIGHT JOIN (SELECT * FROM `Answers` WHERE Q_Id='$qid' AND Flag=1 ORDER BY Replied_on DESC LIMIT 1)AS V ON User.Id=V.Id";
+		$query=$this->db->query($sql);
+	  if ($query->num_rows() > 0) {
+		foreach ($query->result() as $row){
+			return $row;
+		}
+	}
+	return 0;
+	}
+
+
 	public function getquestions($id)
 	{
 		$sql=0;
 		if($id!=0)
 		{
-		$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN (SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on) AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id ";
+		$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN (SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on DESC) AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id ";
 	  }
 		else {
-			$sql="SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on";
+			$sql="SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on DESC";
 		}
 		$query = $this->db->query($sql);
 		$ques=array();

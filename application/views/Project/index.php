@@ -1,5 +1,6 @@
 <?php include("header.php") ?>
       <div style="position:absolute; top:20%;">
+        <?php $o=0;?>
       <?php foreach($ques as $a){ ?>
        <div style="margin-left:40px; margin-top:20px;">
              <?php if($sess):?>
@@ -13,7 +14,12 @@
              <br><br>
              <p><?php echo $a->Description;?></p>
              <br><br>
-
+             <?php if($a->ans>0)
+              if($ans[$o]->Q_Id==$a->Q_Id)
+             {echo $ans[$o]->Q_Id;
+               echo $ans[$o]->Answer;
+               echo $ans[$o]->Name;
+             }   $o=$o+1;?>
 
              <?php if($sess):?>
                       <form action="Home/answer/<?php echo $a->Q_Id; ?>" method="POST">

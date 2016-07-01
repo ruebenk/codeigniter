@@ -21,6 +21,13 @@ class Home extends CI_Controller {
   public function index()
   {
     $data=array("ques"=>$this->Project_model->getquestions($this->getid()));
+    $data["ans"]=array(0,count($data["ques"]),0);
+    $o=0;
+    foreach($data["ques"] as $q)
+    {
+      $data["ans"][$o]=$this->Project_model->getrecentans($q->Q_Id);
+      $o=$o+1;
+    }
     $data["sess"]=$this->issession();
     $this->load->view("Project/index",$data);
   }
@@ -29,13 +36,6 @@ class Home extends CI_Controller {
 
   	$res = 	$this->Project_model->function1();
   	$json_response = json_encode($res);
-
-  	/*# Optionally: Wrap the response in a callback function for JSONP cross-domain support
-  	if($_GET["callback"]) {
-  	    $json_response = $_GET["callback"] . "(" . $json_response . ")";
-  	}
-  	*/
-  	# Return the response
   	echo $json_response;
   }
   public function tagdetail($tid,$tname)
@@ -302,9 +302,13 @@ class Home extends CI_Controller {
     arsort($qid);
     $qid=array_keys($qid);
     $data=array();
+    $data1["ans"]=array(0,COUNT($qid),0);
+    $o=0;
     foreach($qid as $a)
     {
       $data[]=$this->Project_model->searchresult($a,$this->getid());
+      $data1["ans"][$o]=$this->Project_model->getrecentans($a);
+      $o=$o+1;
     }
     $data1["ques"]=$data;
     $data1["sess"]=$this->issession();
