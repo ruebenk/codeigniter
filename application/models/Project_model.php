@@ -444,7 +444,7 @@ class Project_Model extends CI_Model
 
   public function getrecentans($qid)
 	{
-		$sql="SELECT V.A_id,V.Id,V.Q_Id,V.Answer,V.Replied_on,User.Name FROM User RIGHT JOIN (SELECT * FROM `Answers` WHERE Q_Id='$qid' AND Flag=1 ORDER BY Replied_on DESC LIMIT 1)AS V ON User.Id=V.Id";
+		$sql="SELECT V.A_id,V.Id,V.Q_Id,V.Answer,V.Replied_on,User.Name,User.Photo FROM User RIGHT JOIN (SELECT * FROM `Answers` WHERE Q_Id='$qid' AND Flag=1 ORDER BY Replied_on DESC LIMIT 1)AS V ON User.Id=V.Id";
 		$query=$this->db->query($sql);
 	  if ($query->num_rows() > 0) {
 		foreach ($query->result() as $row){
