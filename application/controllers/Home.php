@@ -30,7 +30,6 @@ class Home extends CI_Controller {
       $o=$o+1;
       $data["tags"][$q->Q_Id]=$this->Project_model->gettagfromques($q->Q_Id);
     }
-s
     $data["sess"]=$this->issession();
     $this->load->view("Project/index",$data);
   }

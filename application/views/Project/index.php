@@ -1,6 +1,6 @@
 <?php include("header.php") ?>
       <div style="position:absolute; top:20%;">
-      <?php $i=0; foreach($ques as $a){ ?>
+      <?php $i=0; $o=0; foreach($ques as $a){ ?>
       <div style="margin-left:40px; margin-top:20px;">
              <?php if($sess):?>
                 <b style="font-size:25px;">
