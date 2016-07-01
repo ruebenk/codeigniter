@@ -23,11 +23,14 @@ class Home extends CI_Controller {
     $data=array("ques"=>$this->Project_model->getquestions($this->getid()));
     $data["ans"]=array(0,count($data["ques"]),0);
     $o=0;
+    $data["tags"]=array();
     foreach($data["ques"] as $q)
     {
       $data["ans"][$o]=$this->Project_model->getrecentans($q->Q_Id);
       $o=$o+1;
+      $data["tags"][$q->Q_Id]=$this->Project_model->gettagfromques($q->Q_Id);
     }
+s
     $data["sess"]=$this->issession();
     $this->load->view("Project/index",$data);
   }
@@ -36,6 +39,13 @@ class Home extends CI_Controller {
 
   	$res = 	$this->Project_model->function1();
   	$json_response = json_encode($res);
+
+  	/*# Optionally: Wrap the response in a callback function for JSONP cross-domain support
+  	if($_GET["callback"]) {
+  	    $json_response = $_GET["callback"] . "(" . $json_response . ")";
+  	}
+  	*/
+  	# Return the response
   	echo $json_response;
   }
   public function tagdetail($tid,$tname)
@@ -255,7 +265,7 @@ class Home extends CI_Controller {
         );
 
         $idq=$this->Project_model->insertques($data);
-        $Tags=explode(";",$this->input->post('Tags'));
+        $Tags=array_unique(explode(";",$this->input->post('Tags')));
 
         foreach($Tags as $a)
         {

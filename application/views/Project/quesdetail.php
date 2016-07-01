@@ -1,60 +1,44 @@
-<html>
-	<head>
-					<link rel="icon" type="image/x-icon" href="http://www.quopro.com/assets/img/favicon.ico" />
-					<title>QuoPro</title>
-					<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<?php include ("header.php")  ?>
+			<div style="position:absolute; top:20%;">
+			<?php foreach($ques as $a){ ?>
+				<div style="margin-left:40px; margin-top:20px;">
+					<b style="font-size:25px;">
+						<a style="color:#EC8E40;" href=""><?php echo $a->Title; ?></a>
+						<a style="color:#8D623D;" href="">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $no_ans?>&nbsp;Answers</a>
+					</b>
+					&nbsp;&nbsp;&nbsp;
+					<?php foreach($tags as $x){ ?>
+							 <p class='tag' style='display:none background:#8D623D;'><a style="color:white;" href="/Home/tagdetail/<?php echo $x->T_Id;?>/<?php echo $x->T_Name;?>"><?php echo $x->T_Name; ?></p>
+					<?php }?>
+					<br><br>
+					<p style="color:#8D623D;"><?php echo $a->Description;?></p>
+					<br><br>
 
-					<script src="http://www.quopro.com/assets/js/index.js"></script>
-					<link rel="stylesheet" href="http://www.quopro.com/assets/css/style.css">
-	</head>
-	<body>
-
-				<table style="width:100%">
-				<?php
-				foreach($ques as $a){
-					?>
-					 <tr>
-						 <td><?php echo $a->Q_Id; ?></td>
-						 <td><?php echo $a->Title; ?></td>
-						 <td><?php echo $a->Description;?></td>
-						 <?php if($sess): ?>
-						 <td>	<form action="/Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
-		 				<input type="text" name="Answer"><br>
-		 				<input type="submit" value="Reply">
-		 				</form></td>
-						<td>	<form action="/Home/followques/<?php echo $a->Q_Id; ?>" method="POST">
-					<?php if(! $followed[0]):?>
-					 <input type="submit" name='Follow' value="Follow">
-				  <?php else:?>
-				  <input type="submit" name='Unfollow' value="Unfollow">
-					<?php endif; ?>
-					 </form></td>
+					<?php if($sess): ?>
+							<form action="/Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
+								<textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
+								<input type="submit" value="Reply">
+			 				</form>
+							<form action="/Home/followques/<?php echo $a->Q_Id; ?>" method="POST">
+								<?php if(! $followed[0]):?>
+								 <input type="submit" name='Follow' value="Follow">
+							  <?php else:?>
+							  <input type="submit" name='Unfollow' value="Unfollow">
+								<?php endif; ?>
+						 	</form>
 				 <?php endif; ?>
-					 </tr>
-					 <?php }?>
-	      </table>
-				<table style="width:100%">
-				<?php
-				foreach($ans as $a){
-					?>
-					 <tr>
-						 <td><?php echo $a->A_id; ?></td>
-						 <td><?php echo $a->Answer; ?></td>
-						 <td><?php echo $a->Replied_on;?></td>
-						 <td><?php echo $a->Id?></td>
-						 <td><a href="/Home/profileviewload/<?php echo $a->Id;?>"><?php echo $a->Name?></td>
-					 </tr>
-					 <?php }?>
-				</table>
-				<table style="width:100%">
-				<?php
-				foreach($tags as $a){
-					?>
-					 <tr>
-						 <td><?php echo $a->T_Id; ?></td>
-						 <td><a href="/Home/tagdetail/<?php echo $a->T_Id;?>/<?php echo $a->T_Name;?>"><?php echo $a->T_Name; ?></td>
-					 </tr>
-					 <?php }?>
-				</table>
-	</body>
-</html>
+				 </div>
+			<?php }?>
+
+				<div style="margin-left:40px; margin-top:20px;">
+				<?php foreach($ans as $a){ ?>
+						 <p><?php echo $a->Answer; ?></p><br>
+						 <p><?php echo $a->Replied_on;?></p>
+						 <p><a href="/Home/profileviewload/<?php echo $a->Id;?>"><?php echo $a->Name?></p>
+				<?php }?>
+				</div>
+				<div style="width:100%">
+
+				</div>
+			</div>
+<?php include("footer.php") ?>
