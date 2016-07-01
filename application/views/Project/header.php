@@ -12,10 +12,11 @@
 							</div>
 							<div class="container">
 								<div id="search">
-
-											<input type="search" name="search" placeholder="Search a Question."  style="position:absolute; top:-20%;">
-											<img src='http://www.quopro.com/assets/img/search-icon.png'/ style="position:absolute;left:245%; top:-4%; cursor:pointer;">
-							  </div>
+											<form method="get" action="/Home/searchques">
+												<input type="search" name="Question" id="searchbar" placeholder="Search a Question."  style="position:absolute; top:-20%;">
+												<button type="submit"><img src='http://www.quopro.com/assets/img/search-icon.png'/ style="position:absolute;left:245%; top:-4%; cursor:pointer;"></button>
+											</form>
+								</div>
 
 											<?php if($this->session->userdata('user_id')){ ?>
 													<input type="submit" value="Post a Question" class="button" id="p_q" style="position:relative; left:310%;">

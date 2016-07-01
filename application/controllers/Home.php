@@ -21,6 +21,11 @@ class Home extends CI_Controller {
   public function index()
   {
     $data=array("ques"=>$this->Project_model->getquestions($this->getid()));
+    $data["tags"]=array();
+    foreach($data['ques'] as $x)
+    {
+      $data["tags"][$x->Q_Id]=$this->Project_model->gettagfromques($x->Q_Id);
+    }
     $data["sess"]=$this->issession();
     $this->load->view("Project/index",$data);
   }
@@ -255,7 +260,7 @@ class Home extends CI_Controller {
         );
 
         $idq=$this->Project_model->insertques($data);
-        $Tags=explode(";",$this->input->post('Tags'));
+        $Tags=array_unique(explode(";",$this->input->post('Tags')));
 
         foreach($Tags as $a)
         {

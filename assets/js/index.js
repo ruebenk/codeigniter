@@ -11,7 +11,7 @@ $("#p_q_submit").click(function(event){
 	$data = {'Title' : $("#pq-title").val() , 'Description' : $("#pq-description").val() , 'Tags' : s 	};
 	$.post('http://www.quopro.com/Home/insertques',$data,function(res){
 		if(res=="true"){
-			$post_question_modal.removeClass('is-visible'); 	
+			$post_question_modal.removeClass('is-visible');
 		}
 	});
 	return false;

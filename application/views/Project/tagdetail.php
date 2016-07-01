@@ -1,13 +1,4 @@
-<html>
-	<head>
-					<link rel="icon" type="image/x-icon" href="http://www.quopro.com/assets/img/favicon.ico" />
-					<title>QuoPro</title>
-					<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-
-					<script src="http://www.quopro.com/assets/js/index.js"></script>
-					<link rel="stylesheet" href="http://www.quopro.com/assets/css/style.css">
-	</head>
-	<body>
+<?php include("header.php") ?>
         <table style="width:100%">
 				<?php echo $T_Id; echo "\n"; echo $T_Name; ?>
 				<form action="/Home/followtag/<?php echo $T_Id; ?>" method="POST">
