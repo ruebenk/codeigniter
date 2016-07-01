@@ -10,7 +10,7 @@
                   <a style="color:#8D623D;" href="#">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
                 </b>
              <?php else:?>
-                <b style="font-size:25px;"><a style="color:#EC8E40;" href="Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.-1 ?>"><?php echo $a->Title; ?></a></b>
+                <b style="font-size:25px;"><a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.-1 ?>"><?php echo $a->Title; ?></a></b>
              <?php endif;?>
              <br><br>
              <p><?php echo $a->Description;?></p>
