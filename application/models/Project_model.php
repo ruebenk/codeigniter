@@ -324,6 +324,39 @@ class Project_Model extends CI_Model
 			 return "false";
 		}
 	}
+	function validateMobile($mob)
+	{
+		$query = $this->db->query("SELECT Mobile from User where Mobile='".$mob."' and Verified='1'");
+		if($this->db->affected_rows() > 0){
+			 return "true";
+		}
+		else{
+			 return "false";
+		}
+	}
+	function validateLogin($email,$pwd)
+	{
+		$this->db->query("SELECT Email from User where Email='".$email."' ");
+		if($this->db->affected_rows() <= 0){
+			 return "emaildoesnotexist";
+		}
+		$this->db->query("SELECT Email from User where Email='".$email."'and Verified='1'");
+		if($this->db->affected_rows() <= 0){
+			 return "emailisinvalid";
+		}
+		$query = $this->db->query("SELECT * from User where Email='".$email."' and Verified='1'");
+		if($query->num_rows()>0)
+		{
+						foreach($query->result() as $row)
+						{
+							if(password_verify(md5($pwd),$row->Password))
+							{
+									return "true";
+							}
+						}
+		}
+		return "invalidpassword";
+	}
 	public function getquesidfromtag($tagid)
 	{
 		$sql="SELECT Q_Id from QuesTag Where T_Id='$tagid'";
@@ -444,7 +477,7 @@ class Project_Model extends CI_Model
 
   public function getrecentans($qid)
 	{
-		$sql="SELECT V.A_id,V.Id,V.Q_Id,V.Answer,V.Replied_on,User.Name FROM User RIGHT JOIN (SELECT * FROM `Answers` WHERE Q_Id='$qid' AND Flag=1 ORDER BY Replied_on DESC LIMIT 1)AS V ON User.Id=V.Id";
+		$sql="SELECT V.A_id,V.Id,V.Q_Id,V.Answer,V.Replied_on,User.Name,User.Photo FROM User RIGHT JOIN (SELECT * FROM `Answers` WHERE Q_Id='$qid' AND Flag=1 ORDER BY Replied_on DESC LIMIT 1)AS V ON User.Id=V.Id";
 		$query=$this->db->query($sql);
 	  if ($query->num_rows() > 0) {
 		foreach ($query->result() as $row){
@@ -460,10 +493,20 @@ class Project_Model extends CI_Model
 		$sql=0;
 		if($id!=0)
 		{
-		$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN (SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on DESC) AS vs ON Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY vs.Q_Id ";
+		$sql="SELECT vs.Q_Id,vs.Title,vs.Description,vs.Posted_on,vs.Id,ans,
+			COUNT(Follow_Ques.L_QId) as ans2 FROM Follow_Ques RIGHT JOIN
+			(SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,
+			Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON
+			Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag
+			IS NULL OR Answers.Flag=1 GROUP BY Q_Id) AS vs ON
+			Follow_Ques.Q_Id=vs.Q_Id AND Follow_Ques.Id='$id' AND Follow_Ques.Flag=1 GROUP BY
+			vs.Q_Id ORDER BY vs.Posted_on DESC";
 	  }
 		else {
-			$sql="SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on DESC";
+			$sql="SELECT Questions.Q_Id,Questions.Title,Questions.Description,Questions.Posted_on,
+			Questions.Id,COUNT(Answers.A_id)as ans FROM `Questions` LEFT JOIN Answers ON
+			Questions.Q_Id=Answers.Q_Id AND Answers.Flag=1 WHERE Questions.Flag=1 AND Answers.Flag
+			IS NULL OR Answers.Flag=1 GROUP BY Q_Id ORDER BY Posted_on DESC";
 		}
 		$query = $this->db->query($sql);
 		$ques=array();

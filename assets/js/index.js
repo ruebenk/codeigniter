@@ -11,27 +11,71 @@ $("#p_q_submit").click(function(event){
 	$data = {'Title' : $("#pq-title").val() , 'Description' : $("#pq-description").val() , 'Tags' : s 	};
 	$.post('http://www.quopro.com/Home/insertques',$data,function(res){
 		if(res=="true"){
-			$post_question_modal.removeClass('is-visible');
+			$('.post-question-modal').removeClass('is-visible');
+			location.reload();
 		}
 	});
 	return false;
 });
-function validate(){
+function su_validate(){
   $email = $("#signup-email").val();
-  $data = {'Email' : $email};
+	$mobile = $("#signup-mobile").val();
+  $data = {'Email' : $email,'Mobile' : $mobile };
   $.post('http://www.quopro.com/Home/email_validate',$data,function(res){
 	  if(res=="false"){
-	  	$("#signupform").submit();
-			$('.cd-user-modal').removeClass('is-visible');
-			$('#alert').text("A Verification email has been sent to your email address. Kindly verify your account to login.")
-			$('.alert-box').addClass('is-visible');
-			return true;
+
 	  }
 	  else{
 			event.preventDefault();
-			document.getElementById("sue02").innerHTML="Email-ID already exists";
+			document.getElementById("sue02").innerHTML="Email-ID already exists.";
 			$("#signup-email").next('span').addClass('is-visible');
 			return false;
+	  }
+  });
+	$.post('http://www.quopro.com/Home/mobile_validate',$data,function(res){
+		if(res=="false"){
+			$("#signupform").submit();
+			$('.cd-user-modal').removeClass('is-visible');
+			$('#alert').text("A Verification email has been sent to your email address. Kindly verify your account to login.")
+			$('.alert-box').addClass('is-visible');
+		}
+		else{
+			event.preventDefault();
+			document.getElementById("sue05").innerHTML="Mobile No. already exists.";
+			$("#signup-mobile").next('span').addClass('is-visible');
+			return false;
+		}
+	});
+}
+function si_validate(){
+  $email = $("#signin-email").val();
+	$pwd = $("#signin-password").val();
+  $data = {'Email' : $email,'Password' : $pwd };
+  $.post('http://www.quopro.com/Home/login_validate',$data,function(res){
+	  if(res=="emaildoesnotexist"){
+			event.preventDefault();
+			document.getElementById("sie01").innerHTML="Email-ID does not exist. Please Signup.";
+			$("#signin-email").next('span').addClass('is-visible');
+			return false;
+	  }
+		else if(res=="emailisinvalid"){
+			event.preventDefault();
+			document.getElementById("sie01").innerHTML="Please Verify your Email-ID before login.";
+			$("#signin-email").next('span').addClass('is-visible');
+			return false;
+		}
+		else if(res=="invalidpassword")
+		{
+			event.preventDefault();
+			document.getElementById("sie02").innerHTML="Password is Invalid";
+			$("#signin-password").next('span').addClass('is-visible');
+			return false;
+		}
+	  else{
+			$("#signinform").submit();
+			$('.cd-user-modal').removeClass('is-visible');
+			$('#alert').text("Logged in Successfully.")
+			$('.alert-box').addClass('is-visible');
 	  }
   });
 }
@@ -207,12 +251,6 @@ $(".colors li").click(function() {
 						$form_login.find("#signin-password").next('span').addClass('is-visible');
 						return false;
 				 }
-				 else if(z.length < 8){
-						event.preventDefault();
-						document.getElementById("sie02").innerHTML="Password must contain atleast 8 characters.";
-						$form_login.find("#signin-password").next('span').addClass('is-visible');
-						return false;
-				 }
 				 else
 						$form_login.find("#signin-password").next('span').removeClass('is-visible');
 			}
@@ -285,17 +323,11 @@ $(".colors li").click(function() {
 			 $form_login.find("#signin-password").next('span').addClass('is-visible');
 			 return false;
 		}
-		else if(z.length < 8){
-			 event.preventDefault();
-			 document.getElementById("sie02").innerHTML="Password must contain atleast 8 characters.";
-			 $form_login.find("#signin-password").next('span').addClass('is-visible');
-			 return false;
-		}
 		else
 			 $form_login.find("#signin-password").next('span').removeClass('is-visible');
-
-
-	});
+		si_validate();
+		return false;
+});
 
 	$form_signup.find('input[type="submit"]').on('click', function(event){
 
@@ -393,7 +425,7 @@ $(".colors li").click(function() {
 				$form_signup.find("#accept-terms").next('span').addClass('is-visible');
 				return false;
 			}
-		  validate();
+		  su_validate();
 			return false;
 	});
 

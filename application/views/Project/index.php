@@ -1,11 +1,20 @@
 <?php include("header.php") ?>
-      <div style="position:absolute; top:20%;">
+      <?php if ($this->session->flashdata('flag')==1) { ?>
+        <script>
+             $('#alert').text("Your Email ID has been validated. Please login to continue.")
+  			     $('.alert-box').addClass('is-visible');
+        </script>
+      <?php } ?>
+
+       <div style="position:absolute; top:20%;">
       <?php $i=0; $o=0; foreach($ques as $a){ ?>
       <div style="margin-left:40px; margin-top:20px;">
              <?php if($sess):?>
+
                 <b style="font-size:25px;">
                   <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.$a->ans2 ?>"><?php echo $a->Title; ?></a>
                   <a style="color:#8D623D;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.$a->ans2 ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
+                  <p><?php print_r($this->session->flashdata('flag')); ?></p>
                 </b>
              <?php else:?>
                 <b style="font-size:25px;">

@@ -63,6 +63,8 @@ public function verifyEmailAddress($id,$verificationcode){
       {
         $sql= "UPDATE User Set Verified=1 WHERE Id='$id'";
         $df = $this->db->query($sql);
+        $flag=1;
+        $this->session->set_flashdata('flag',$flag);
         redirect("");
       }
     }
