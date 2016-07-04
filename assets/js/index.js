@@ -1,5 +1,101 @@
 var tid=0;
 var s="";
+
+function chngfollow(a)
+{
+ var elem = document.getElementsByClassName("Follow");
+alert(a);
+$.ajax({
+    url: 'http://www.quopro.com/Home/followques',
+    type: 'POST',
+    data:( { qid: a }),
+    success: function (data) {
+      if (elem[a-1].value=="Follow") elem[a-1].value = "Unfollow";
+          else elem[a-1].value = "Follow";
+    },
+    error: function () {
+        return 0;
+    }
+});
+ return 0;
+}
+
+function chngrecans(a)
+{
+ var elem = document.getElementsByClassName("ans");
+alert(a);
+$.ajax({
+    url: 'http://www.quopro.com/Home/followques',
+    type: 'POST',
+    data:( { qid: a }),
+    success: function (data) {
+      if (elem[a-1].value=="Follow") elem[a-1].value = "Unfollow";
+          else elem[a-1].value = "Follow";
+    },
+    error: function () {
+        return 0;
+    }
+});
+ return 0;
+}
+
+function chngfollowonques(a)
+{
+ var elem = document.getElementById("sd");
+alert(a);
+$.ajax({
+    url: 'http://www.quopro.com/Home/followques',
+    type: 'POST',
+    data:( { qid: a }),
+    success: function (data) {
+      if (elem.value=="Follow") elem.value = "Unfollow";
+          else elem.value = "Follow";
+    },
+    error: function () {
+        return 0;
+    }
+});
+ return 0;
+}
+
+function chngfollowontag(a)
+{
+ var elem = document.getElementById("tag");
+alert(a);
+$.ajax({
+    url: 'http://www.quopro.com//Home/followtag/',
+    type: 'POST',
+    data:( { tid: a }),
+    success: function (data) {
+      if (elem.value=="Follow") elem.value = "Unfollow";
+          else elem.value = "Follow";
+    },
+    error: function () {
+        return 0;
+    }
+});
+ return 0;
+}
+
+function chngfollowonuser(a)
+{
+ var elem = document.getElementById("user");
+alert(a);
+$.ajax({
+    url: 'http://www.quopro.com//Home/followuser/',
+    type: 'POST',
+    data:( { uid: a }),
+    success: function (data) {
+      if (elem.value=="Follow") elem.value = "Unfollow";
+          else elem.value = "Follow";
+    },
+    error: function () {
+        return 0;
+    }
+});
+ return 0;
+}
+
 function remove()
 {
 		$form_login.find("#signin-email").next('span').removeClass('is-visible');

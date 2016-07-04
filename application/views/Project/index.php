@@ -4,13 +4,13 @@
       <div style="margin-left:40px; margin-top:20px;">
              <?php if($sess):?>
                 <b style="font-size:25px;">
-                  <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.$a->ans2 ?>"><?php echo $a->Title; ?></a>
-                  <a style="color:#8D623D;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.$a->ans2 ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
+                  <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id ?>"><?php echo $a->Title; ?></a>
+                  <a style="color:#8D623D;" href="/Home/quesdetail/<?php echo $a->Q_Id ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
                 </b>
              <?php else:?>
                 <b style="font-size:25px;">
-                  <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.-1 ?>"><?php echo $a->Title; ?></a>
-                  <a style="color:#8D623D;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.-1 ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
+                  <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id ?>"><?php echo $a->Title; ?></a>
+                  <a style="color:#8D623D;" href="/Home/quesdetail/<?php echo $a->Q_Id ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
                 </b>
              <?php endif;?>
              &nbsp;&nbsp;&nbsp;
@@ -27,19 +27,22 @@
              {echo $ans[$o]->Q_Id;
                echo $ans[$o]->Answer;
                echo $ans[$o]->Name;
-             }   $o=$o+1;?>
-
+             }   $o=$o+1;
+           ?>
              <?php if($sess):?>
                       <form action="Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
                         <textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
                         <input type="submit" value="Reply">
                       </form>
-                      <form action="Home/followques/<?php echo $a->Q_Id; ?>" method="POST">
-                      <?php if(! $a->ans2):?>
-                          <input type="submit" name='Follow' value="Follow">
-                      <?php else:?>
-                          <input type="submit" name='Unfollow' value="Unfollow">
+                      <form  method="POST">
+                        <textarea name="Answer"  style="width:440px; height:100px;"></textarea><br>
+                      <input type="button" onclick="chngrecans(<?php echo $a->Q_Id; ?>)" class="Answer" value="Reply" >
+                      </form>
+                      <form  method="POST">
+                      <?php if(! $a->ans2): $t="Follow";?>
+                      <?php else:  $t="Unfollow";?>
                       <?php endif; ?>
+                      <input type="button" onclick="chngfollow(<?php echo $a->Q_Id; ?>)" class="Follow" value="<?php echo $t;?>" >
                       </form>
             <?php endif;?>
        </div>
