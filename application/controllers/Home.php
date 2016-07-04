@@ -281,7 +281,6 @@ class Home extends CI_Controller {
 
         $idq=$this->Project_model->insertques($data);
         $Tags=array_unique(explode(";",$this->input->post('Tags')));
-
         foreach($Tags as $a)
         {
            $a=strtolower($a);
