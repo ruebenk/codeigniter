@@ -53,14 +53,29 @@ class Home extends CI_Controller {
     $data["T_Name"]=$tname;
     $data["ques"]=$this->Project_model->getquesfromtag($tid,$this->getid());
     $data["sess"]=$this->getid();
+    if($this->issession())
+      $data["followed"]=$this->Project_model->istagfollowed($tid,$this->getid());
+    else
+      $data["followed"]=-1;
+    $o=0;
+    $data["tags"]=array();
+    foreach($data["ques"] as $q)
+    {
+      $data["ans"][$o]=$this->Project_model->getrecentans($q->Q_Id);
+      $o=$o+1;
+      $data["tags"][$q->Q_Id]=$this->Project_model->gettagfromques($q->Q_Id);
+    }
     $this->load->view("Project/tagdetail",$data);
   }
-  public function quesdetail($qid,$no_ans,$followed)
+  public function quesdetail($qid)
   {
     $data=array("ques"=>$this->Project_model->getquestion($qid));
     $data["ans"]=$this->Project_model->getanswers($qid);
-    $data["no_ans"]=$no_ans;
-    $data["followed"]=$followed;
+    $data["no_ans"]=$this->Project_model->getnoanswers($qid);
+    if($this->issession())
+      $data["followed"]=-1;
+    else
+      $data["followed"]=$this->Project_model->isfollowed($qid,$this->getId());
     $data["tags"]=$this->Project_model->gettagfromques($qid);
     $data["sess"]=$this->issession();
     $this->load->view("Project/quesdetail",$data);
@@ -81,8 +96,9 @@ class Home extends CI_Controller {
     }
     return 0;
   }
-  public function followques($qid)
+  public function followques()
   {
+    $qid=$this->input->post('qid');
     if($this->issession())
     {
      $data=array(
@@ -90,11 +106,12 @@ class Home extends CI_Controller {
       "Q_Id"=>$qid
      );
      $this->Project_model->followques($data);
-     redirect("");
     }
   }
-  public function followuser($uid)
+
+  public function followuser()
   {
+    $uid=$this->input->post('uid');
     if($this->issession())
     {
      $data=array(
@@ -106,7 +123,7 @@ class Home extends CI_Controller {
     }
   }
   public function followtag($tid)
-  {
+  {$tid=$this->input->post('tid');
     if($this->issession())
     {
      $data=array(
@@ -211,15 +228,40 @@ class Home extends CI_Controller {
   public function quesposted($id)
   {
     $data=array("ques" => $this->Project_model->getquestionposted($id,$this->getid()));
+    $data["ans"]=array(0,count($data["ques"]),0);
+    $o=0;
+    $data["tags"]=array();
+    foreach($data["ques"] as $q)
+    {
+      $data["ans"][$o]=$this->Project_model->getrecentans($q->Q_Id);
+      $o=$o+1;
+      $data["tags"][$q->Q_Id]=$this->Project_model->gettagfromques($q->Q_Id);
+    }
     $data["sess"]=$this->issession();
     $this->load->view("Project/index",$data);
   }
+
+
   public function quesfollowing($id)
   {
     $data=array("ques" => $this->Project_model->getquestionfollowing($id,$this->getid()));
+    $data["ans"]=array(0,COUNT($data["ques"]),0);
+    $o=0;
+    $data["tags"]=array();
+    foreach($data["ques"] as $b)
+    {
+      foreach($b as $a)
+      {
+      $data[]=$this->Project_model->searchresult($a->Q_Id,$this->getid());
+      $data["ans"][$o]=$this->Project_model->getrecentans($a->Q_Id);
+      $data["tags"][$a->Q_Id]=$this->Project_model->gettagfromques($a->Q_Id);
+      $o=$o+1;
+    }
+    }
     $data["sess"]=$this->issession();
     $this->load->view("Project/searchresult",$data);
   }
+
   public function email_validate()
   {
     $email = $this->input->post('Email');
@@ -261,6 +303,15 @@ class Home extends CI_Controller {
   public function profileviewload($id)
   {
     $data2=array("obj"=>$this->Project_model->getProfileDetails($id));
+    $data2["sess"]=$this->issession();
+    $data2["isfollowed"]=-1;
+    if($this->issession())
+    {
+      if($id==$this->getId())
+        $data2["isfollowed"]=-1;
+      else
+        $data2["isfollowed"]=$this->Project_model->isuserfollowed($id,$this->getId());
+    }
     $this->load->view("Project/profileview",$data2);
   }
 
@@ -328,10 +379,12 @@ class Home extends CI_Controller {
     $data=array();
     $data1["ans"]=array(0,COUNT($qid),0);
     $o=0;
+    $data1["tags"]=array();
     foreach($qid as $a)
     {
       $data[]=$this->Project_model->searchresult($a,$this->getid());
       $data1["ans"][$o]=$this->Project_model->getrecentans($a);
+      $data1["tags"][$a]=$this->Project_model->gettagfromques($a);
       $o=$o+1;
     }
     $data1["ques"]=$data;

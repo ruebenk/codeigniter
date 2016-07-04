@@ -6,12 +6,17 @@
        <div style="margin-left:40px; margin-top:20px;">
              <?php if($sess):?>
                 <b style="font-size:25px;">
-                  <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.$a->ans2 ?>"><?php echo $a->Title; ?></a>
+                  <a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id;?>"><?php echo $a->Title; ?></a>
                   <a style="color:#8D623D;" href="#">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $a->ans?>&nbsp;Answers</a>
                 </b>
              <?php else:?>
-                <b style="font-size:25px;"><a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id.'/'.$a->ans.'/'.-1 ?>"><?php echo $a->Title; ?></a></b>
+                <b style="font-size:25px;"><a style="color:#EC8E40;" href="/Home/quesdetail/<?php echo $a->Q_Id ?>"><?php echo $a->Title; ?></a></b>
              <?php endif;?>
+             <?php
+                foreach ($tags[$a->Q_Id] as $x) { ?>
+                  <p class='tag' style='display:none background:#8D623D;'><a style="color:white;" href="/Home/tagdetail/<?php echo $x->T_Id;?>/<?php echo $x->T_Name;?>"><?php echo $x->T_Name; ?></a></p>
+             <?php }
+             ?>
              <br><br>
              <p><?php echo $a->Description;?></p>
              <br><br>
@@ -27,12 +32,12 @@
                         <textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
                         <input type="submit" value="Reply">
                       </form>
-                      <form action="Home/followques/<?php echo $a->Q_Id; ?>" method="POST">
-                      <?php if(! $a->ans2):?>
-                          <input type="submit" name='Follow' value="Follow">
-                      <?php else:?>
-                          <input type="submit" name='Unfollow' value="Unfollow">
+                      </form>
+                      <form  method="POST">
+                      <?php if(! $a->ans2): $t="Follow";?>
+                      <?php else:  $t="Unfollow";?>
                       <?php endif; ?>
+                      <input type="button" onclick="chngfollowonques(<?php echo $a->Q_Id; ?>)" id="sd" value="<?php echo $t;?>" >
                       </form>
               <?php endif;?>
        </div>

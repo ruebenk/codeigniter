@@ -44,6 +44,44 @@ class Project_Model extends CI_Model
 			 return $this->db->insert_id();
 	}
 
+public function getnoanswers($qid)
+{
+	$sql="SELECT COUNT(A_Id)as t From Answers where Q_Id='$qid' AND Flag='1'";
+	$query = $this->db->query($sql);
+	foreach($query->result() as $a)
+		{return $a->t;}
+}
+
+public function isfollowed($qid,$uid)
+{
+	$sql="SELECT * FROM Follow_Ques where Q_Id='$qid' AND Id='$uid' AND Flag=1";
+	$query = $this->db->query($sql);
+  if ($query->num_rows() > 0){
+		return 1;
+	}
+	return 0;
+}
+
+public function isuserfollowed($u,$v)
+{
+	$sql="SELECT * FROM Follow_User where U1_id='$v' AND U2_id='$u' AND Flag=1";
+	$query = $this->db->query($sql);
+  if ($query->num_rows() > 0){
+		return 1;
+	}
+	return 0;
+}
+
+public function istagfollowed($tid,$uid)
+{
+	$sql="SELECT * FROM Interest where T_id='$tid' AND Id='$uid' AND Flag=1";
+	$query = $this->db->query($sql);
+  if ($query->num_rows() > 0){
+		return 1;
+	}
+	return 0;
+}
+
   public function followques($data)
   {
 		  $query = $this->db->select('*')->from("Follow_Ques")->where($data)->get();
