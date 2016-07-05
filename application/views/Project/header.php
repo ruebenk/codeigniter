@@ -8,7 +8,7 @@
 	</head>
 	<body>
 
-					<header role="banner" style="position:fixed; width:100%; height:110px; z-index:10; background:inherit;">
+					<header role="banner" style="position:fixed; width:100%; height:120px; z-index:10; background:inherit;">
 
 							<div id="cd-logo">
 									<a href="http://www.quopro.com"><img src="<?php echo base_url();?>assets/img/QuoPro Logo.gif" width = "90" height="90" alt="Logo"></a>
@@ -49,7 +49,8 @@
                   <?php } ?>
 
 							</nav>
-							<br><br><br><br><br><br><br><hr>
+							<br><br><br><br><br><br><br>
+							<hr>
 					</header>
 
 					<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
@@ -171,7 +172,7 @@
 							<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 
 									<div id="post-question">
-												<form class="cd-form" id="postQForm">
+												<form class="cd-form" id="postQForm" >
 														<p class="fieldset">
 															<input class="full-width has-padding has-border" name="Title" id="pq-title" type="text" placeholder="Title"\>
 															<span class="cd-error-message" id="pqe01"></span>
@@ -188,7 +189,7 @@
 														</label>
 
 														<p class="fieldset">
-														<input class="full-width" type="submit" value="Post Question" id="p_q_submit"\>
+														<input class="full-width" id="postSubmit" type="submit" value="Post Question" />
 														</p>
 														<p hidden id="tagvalue" ></p>
 											  </form>
@@ -209,6 +210,7 @@
 		<div style="background-image:url('http://www.quopro.com/assets/img/export.png');
 	          background-repeat: no-repeat;
 	          background-size: 100%;
+						background-attachment: fixed;
 						background-position: 0 120;
 	          opacity: 0.3;
 	          filter:alpha(opacity=40);

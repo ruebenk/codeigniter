@@ -3,15 +3,16 @@ var s="";
 
 function chngfollow(a)
 {
- var elem = document.getElementsByClassName("Follow");
-alert(a);
+ var elem = document.getElementById(a);
 $.ajax({
     url: 'http://www.quopro.com/Home/followques',
     type: 'POST',
     data:( { qid: a }),
     success: function (data) {
-      if (elem[a-1].value=="Follow") elem[a-1].value = "Unfollow";
-          else elem[a-1].value = "Follow";
+      if (elem.value=="Follow")
+        elem.value = "Unfollow";
+      else
+        elem.value = "Follow";
     },
     error: function () {
         return 0;
@@ -41,15 +42,16 @@ $.ajax({
 
 function chngfollowonques(a)
 {
- var elem = document.getElementById("sd");
-alert(a);
+ var elem = document.getElementById("ques");
 $.ajax({
     url: 'http://www.quopro.com/Home/followques',
     type: 'POST',
     data:( { qid: a }),
     success: function (data) {
-      if (elem.value=="Follow") elem.value = "Unfollow";
-          else elem.value = "Follow";
+      if (elem.value=="Follow")
+        elem.value = "Unfollow";
+      else
+        elem.value = "Follow";
     },
     error: function () {
         return 0;
@@ -101,22 +103,10 @@ function remove()
 		$form_login.find("#signin-email").next('span').removeClass('is-visible');
 		$form_login.find("#signin-password").next('span').removeClass('is-visible');
 }
-$("#p_q_submit").click(function(event){
-	event.preventDefault();
-	s=s.substring(0,s.length-1);
-	$data = {'Title' : $("#pq-title").val() , 'Description' : $("#pq-description").val() , 'Tags' : s 	};
-	$.post('http://www.quopro.com/Home/insertques',$data,function(res){
-		if(res=="true"){
-			$('.post-question-modal').removeClass('is-visible');
-			location.reload();
-		}
-	});
-	return false;
-});
+
 function su_validate(){
   $email = $("#signup-email").val();
-	$mobile = $("#signup-mobile").val();
-  $data = {'Email' : $email,'Mobile' : $mobile };
+  $data = {'Email' : $email};
   $.post('http://www.quopro.com/Home/email_validate',$data,function(res){
 	  if(res=="false"){
 
@@ -205,6 +195,18 @@ jQuery(document).ready(function($){
 		}
 
 	});*/
+  $("#postSubmit").on('click', function(event){
+  	event.preventDefault();
+  	s=s.substring(0,s.length-1);
+  	$data = {'Title' : $("#pq-title").val() , 'Description' : $("#pq-description").val() , 'Tags' : s 	};
+  	$.post('http://www.quopro.com/Home/insertques',$data,function(res){
+  		if(res=="true"){
+  			$('.post-question-modal').removeClass('is-visible');
+  			location.reload();
+  		}
+  	});
+  	return false;
+  });
 	$('#cd_signup').on('click', function(event){
 		$form_modal.addClass('is-visible');
 		signup_selected();

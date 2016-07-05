@@ -2,7 +2,7 @@
       <?php if ($this->session->flashdata('flag')==1) { ?>
         <script>
              $('#alert').text("Your Email ID has been validated. Please login to continue.")
-  			     $('.alert-box').addClass('is-visible');
+  			     $('.alert-box').addClass('is-visichngble');
         </script>
       <?php } ?>
 
@@ -37,16 +37,16 @@
              }   $o=$o+1;?>
 
              <?php if($sess):?>
-                      <form action="Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
-                        <textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
-                        <input type="submit" value="Reply">
+
+                      <form  method="POST">
+                        <textarea name="Answer" id="<?php echo $a->Q_Id; ?>" style="width:440px; height:100px;"></textarea><br>
+                      <input type="button" onclick="chngrecans(<?php echo $a->Q_Id; ?>)" class="Answer" value="Reply" >
                       </form>
-                      <form action="Home/followques/<?php echo $a->Q_Id; ?>" method="POST">
-                      <?php if(! $a->ans2):?>
-                          <input type="submit" name='Follow' value="Follow">
-                      <?php else:?>
-                          <input type="submit" name='Unfollow' value="Unfollow">
+                      <form  method="POST">
+                      <?php if(! $a->ans2): $t="Follow";?>
+                      <?php else:  $t="Unfollow";?>
                       <?php endif; ?>
+                      <input type="button" onclick="chngfollow(<?php echo $a->Q_Id; ?>)" id="<?php echo $a->Q_Id; ?>" value="<?php echo $t;?>" >
                       </form>
             <?php endif;?>
        </div>
