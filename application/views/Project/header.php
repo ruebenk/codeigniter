@@ -3,9 +3,12 @@
 					<link rel="icon" type="image/x-icon" href="http://www.quopro.com/assets/img/favicon.ico" />
 					<title>QuoPro</title>
 					<link rel="stylesheet" href="<?php echo base_url();?>assets/css/style.css">
+					<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+					<script src="<?php echo base_url();?>assets/js/index.js"></script>
 	</head>
 	<body>
-					<header role="banner" style="position:fixed; width:100%; height:110px; z-index:10; background:inherit;">
+
+					<header role="banner" style="position:fixed; width:100%; height:120px; z-index:10; background:inherit;">
 
 							<div id="cd-logo">
 									<a href="http://www.quopro.com"><img src="<?php echo base_url();?>assets/img/QuoPro Logo.gif" width = "90" height="90" alt="Logo"></a>
@@ -29,7 +32,7 @@
 							<nav class="main-nav" >
                   <?php if($this->session->userdata('user_id')){ ?>
                     <ul>
-                      <!-- inser more links here	 -->
+                      <!-- insert more links here	 -->
                       <li><a href="http://www.quopro.com/Home/profileviewload/<?php echo $this->session->userdata('user_id')?> "><img style="position:absolute; top:20%; left:71%; width:60px; height:60px; border-radius: 50%;"src="http://www.quopro.com/uploads/<?php echo $this->session->userdata('pic');?>" /></a></li>
                       <li><a href="http://www.quopro.com/Home/profileviewload/<?php echo $this->session->userdata('user_id')?> " style="color:#8D623D; position:absolute; top:3%; left:76%;"><?php echo $this->session->userdata('name');?></a></li>
                       <li><a class="cd-logout" href="http://www.quopro.com/Home/logout">Logout</a></li>
@@ -39,14 +42,15 @@
                   <?php }else { ?>
                     <ul>
                       <!-- inser more links here	 -->
-                      <li><a class="cd-signin" id="cd_signin" href="#0">Sign in</a></li>
-                      <li><a class="cd-signup" id="cd_signup" href="#0">Sign up</a></li>
+                      <li><a class="cd-signin" id="cd_signin" href="#0" >Sign in</a></li>
+                      <li><a class="cd-signup" id="cd_signup" href="#0" >Sign up</a></li>
 
                     </ul>
                   <?php } ?>
 
 							</nav>
-							<br><br><br><br><br><br><hr>
+							<br><br><br><br><br><br><br>
+							<hr>
 					</header>
 
 					<div class="cd-user-modal"> <!-- this is the entire modal form, including the background -->
@@ -58,7 +62,7 @@
 										<li><a href="#0">New account</a></li>
 									</ul>
 									<div id="cd-login"> <!-- log in form -->
-												<?php $attributes = array("class" => "cd-form");
+												<?php $attributes = array("class" => "cd-form","id"=>"signinform");
 												echo form_open_multipart("Home/login", $attributes);?>
 														<p class="fieldset">
 															<label class="image-replace cd-email" for="signin-email">E-mail</label>
@@ -168,7 +172,7 @@
 							<div class="cd-user-modal-container"> <!-- this is the container wrapper -->
 
 									<div id="post-question">
-												<form class="cd-form" id="postQForm">
+												<form class="cd-form" id="postQForm" >
 														<p class="fieldset">
 															<input class="full-width has-padding has-border" name="Title" id="pq-title" type="text" placeholder="Title"\>
 															<span class="cd-error-message" id="pqe01"></span>
@@ -185,7 +189,7 @@
 														</label>
 
 														<p class="fieldset">
-														<input class="full-width" type="submit" value="Post Question" id="p_q_submit"\>
+														<input class="full-width" id="postSubmit" type="submit" value="Post Question" />
 														</p>
 														<p hidden id="tagvalue" ></p>
 											  </form>
@@ -203,3 +207,14 @@
 									<a href="#0" class="cd-close-form"></a>
 							</div> <!-- cd-user-modal-container -->
 					</div> <!-- alertbox	 -->
+		<div style="background-image:url('http://www.quopro.com/assets/img/export.png');
+	          background-repeat: no-repeat;
+	          background-size: 100%;
+						background-attachment: fixed;
+						background-position: 0 120;
+	          opacity: 0.3;
+	          filter:alpha(opacity=40);
+	          height:100%;
+	          width:100%;
+	          z-index:0.1;">
+		</div>

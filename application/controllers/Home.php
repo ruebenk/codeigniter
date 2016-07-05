@@ -166,6 +166,8 @@ class Home extends CI_Controller {
   				 }
   				 $upload_data = $this->upload->data();
   				 $file_name = $upload_data['file_name'];
+           if($file_name=="")
+              $file_name="default.png";
   				 $data = array(
   					 'Name'    =>  $this->input->post('Name'),
   					 'Email'   =>  $this->input->post('Email'),
@@ -268,6 +270,20 @@ class Home extends CI_Controller {
   	echo $result;
   }
 
+  public function mobile_validate()
+  {
+    $mob = $this->input->post('Mobile');
+    $result = $this->Project_model->validateMobile($mob);
+  	echo $result;
+  }
+  public function login_validate()
+  {
+    $email = $this->input->post('Email');
+    $pwd = $this->input->post('Password');
+    $result = $this->Project_model->validateLogin($email,$pwd);
+  	echo $result;
+  }
+
   public function login()
   {
 
@@ -314,7 +330,6 @@ class Home extends CI_Controller {
         'Description'   =>  $this->input->post('Description'),
         'Id'=> $this->getid()
         );
-
         $idq=$this->Project_model->insertques($data);
         $Tags=array_unique(explode(";",$this->input->post('Tags')));
 
