@@ -22,29 +22,32 @@
              <br><br>
              <p style="color:#8D623D;"><?php echo $a->Description;?></p>
              <br><br>
-             <?php if($a->ans>0)
-              if($ans[$o]->Q_Id==$a->Q_Id)
-             {echo $ans[$o]->Q_Id;
-               echo $ans[$o]->Answer;
-               echo $ans[$o]->Name;
-             }   $o=$o+1;
-           ?>
-             <?php if($sess):?>
-                      <form action="Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
-                        <textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
-                        <input type="submit" value="Reply">
-                      </form>
+             <?php if($a->ans>0) :
+
+                if($ans[$o]->Q_Id==$a->Q_Id):
+                  echo $ans[$o]->Q_Id;?>
+                  <p class="ansp"><?php echo $ans[$o]->Answer;?></p>
+                  <p class="ansdqu"><?php echo $ans[$o]->Name;?></p>
+                <?php endif;?>
+            <?php else: ?>
+                  <p class="ansp"></p>
+                  <p class="ansdqu"></p>
+            <?php endif; ?>
+            <?php if($sess):?>
                       <form  method="POST">
-                        <textarea name="Answer"  style="width:440px; height:100px;"></textarea><br>
-                      <input type="button" onclick="chngrecans(<?php echo $a->Q_Id; ?>)" class="Answer" value="Reply" >
+                        <textarea name="Answer" class="ansdq"  style="width:440px; height:100px;"></textarea><br>
+                      <input type="button" onclick="chngrecans(<?php echo $o; ?>,<?php echo $a->Q_Id;?>,'<?php echo $this->session->userdata('name'); ?>')" class="ansd" value="Reply" >
                       </form>
                       <form  method="POST">
                       <?php if(! $a->ans2): $t="Follow";?>
                       <?php else:  $t="Unfollow";?>
                       <?php endif; ?>
-                      <input type="button" onclick="chngfollow(<?php echo $a->Q_Id; ?>)" class="Follow" value="<?php echo $t;?>" >
+                      <input type="button" onclick="chngfollow(<?php echo $o; ?>,<?php echo $a->Q_Id; ?>)" class="Follow" value="<?php echo $t;?>" >
                       </form>
             <?php endif;?>
+            <?php
+            $o=$o+1;
+        ?>
        </div>
       <?php }?>
     </div>

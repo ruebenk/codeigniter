@@ -1,17 +1,18 @@
 var tid=0;
 var s="";
 
-function chngfollow(a)
+function chngfollow(b,a)
 {
  var elem = document.getElementsByClassName("Follow");
+alert(b);
 alert(a);
 $.ajax({
     url: 'http://www.quopro.com/Home/followques',
     type: 'POST',
     data:( { qid: a }),
     success: function (data) {
-      if (elem[a-1].value=="Follow") elem[a-1].value = "Unfollow";
-          else elem[a-1].value = "Follow";
+      if (elem[b].value=="Follow") elem[b].value = "Unfollow";
+          else elem[b].value = "Follow";
     },
     error: function () {
         return 0;
@@ -20,17 +21,24 @@ $.ajax({
  return 0;
 }
 
-function chngrecans(a)
+function x()
 {
- var elem = document.getElementsByClassName("ans");
-alert(a);
+  alert("ho");
+}
+function chngrecans(c,a,b)
+{
+  alert("yo");
+ var elem1 = document.getElementsByClassName("ansdq");
+ var elem2 = document.getElementsByClassName("ansp");
+ var elem3 = document.getElementsByClassName("ansdqu");
 $.ajax({
-    url: 'http://www.quopro.com/Home/followques',
+    url: 'http://www.quopro.com/Home/answer/',
     type: 'POST',
-    data:( { qid: a }),
+    data:( { qid: a,Answer:elem1[c].value }),
     success: function (data) {
-      if (elem[a-1].value=="Follow") elem[a-1].value = "Unfollow";
-          else elem[a-1].value = "Follow";
+      elem2[c].innerHTML=elem1[c].value;
+      elem3[c].innerHTML=b;
+      elem1[c].value="";
     },
     error: function () {
         return 0;
@@ -38,18 +46,41 @@ $.ajax({
 });
  return 0;
 }
+
+function ans(a)
+{
+ var elem1 = document.getElementById("at");
+ alert(elem1.value);
+ alert(a);
+$.ajax({
+    url: 'http://www.quopro.com/Home/answer/',
+    type: 'POST',
+    data:( { qid: a,Answer:elem1.value }),
+    success: function (data) {
+      location.reload();
+    },
+    error: function () {
+        return 0;
+    }
+});
+ return 0;
+}
+
 
 function chngfollowonques(a)
 {
- var elem = document.getElementById("sd");
+ var elem1 = document.getElementById("ques");
+ alert(elem1.value);
 alert(a);
 $.ajax({
     url: 'http://www.quopro.com/Home/followques',
     type: 'POST',
     data:( { qid: a }),
     success: function (data) {
-      if (elem.value=="Follow") elem.value = "Unfollow";
-          else elem.value = "Follow";
+      if (elem1.value=="Follow")
+        elem1.value = "Unfollow";
+      else
+        elem1.value = "Follow";
     },
     error: function () {
         return 0;
@@ -107,7 +138,8 @@ $("#p_q_submit").click(function(event){
 	$data = {'Title' : $("#pq-title").val() , 'Description' : $("#pq-description").val() , 'Tags' : s 	};
 	$.post('http://www.quopro.com/Home/insertques',$data,function(res){
 		if(res=="true"){
-			$post_question_modal.removeClass('is-visible');
+			$('.post-question-modal').removeClass('is-visible');
+      location.reload();
 		}
 	});
 	return false;

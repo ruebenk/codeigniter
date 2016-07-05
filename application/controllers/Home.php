@@ -47,6 +47,7 @@ class Home extends CI_Controller {
   	# Return the response
   	echo $json_response;
   }
+
   public function tagdetail($tid,$tname)
   {
     $data["T_Id"]=$tid;
@@ -72,10 +73,10 @@ class Home extends CI_Controller {
     $data=array("ques"=>$this->Project_model->getquestion($qid));
     $data["ans"]=$this->Project_model->getanswers($qid);
     $data["no_ans"]=$this->Project_model->getnoanswers($qid);
-    if($this->issession())
+    if(!$this->issession())
       $data["followed"]=-1;
     else
-      $data["followed"]=$this->Project_model->isfollowed($qid,$this->getId());
+      $data["followed"]=$this->Project_model->isfollowed($qid,$this->getid());
     $data["tags"]=$this->Project_model->gettagfromques($qid);
     $data["sess"]=$this->issession();
     $this->load->view("Project/quesdetail",$data);
@@ -291,10 +292,10 @@ class Home extends CI_Controller {
     $data2["isfollowed"]=-1;
     if($this->issession())
     {
-      if($id==$this->getId())
+      if($id==$this->getid())
         $data2["isfollowed"]=-1;
       else
-        $data2["isfollowed"]=$this->Project_model->isuserfollowed($id,$this->getId());
+        $data2["isfollowed"]=$this->Project_model->isuserfollowed($id,$this->getid());
     }
     $this->load->view("Project/profileview",$data2);
   }
@@ -378,8 +379,9 @@ class Home extends CI_Controller {
   }
 
 
-  public function answer($qid)
+  public function answer()
   {
+    $qid=$this->input->post('qid');
     if($this->issession())
     {
        $ans=$this->input->post('Answer');

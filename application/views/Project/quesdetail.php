@@ -8,22 +8,22 @@
 					</b>
 					&nbsp;&nbsp;&nbsp;
 					<?php foreach($tags as $x){ ?>
-							 <p class='tag' style='display:none background:#8D623D;'><a style="color:white;" href="/Home/tagdetail/<?php echo $x->T_Id;?>/<?php echo $x->T_Name;?>"><?php echo $x->T_Name; ?></p>
+							 <p class='tag' style='display:none background:#8D623D;'><a style="color:white;" href="/Home/tagdetail/<?php echo $x->T_Id;?>/<?php echo $x->T_Name;?>"><?php echo $x->T_Name; ?></a></p>
 					<?php }?>
 					<br><br>
 					<p style="color:#8D623D;"><?php echo $a->Description;?></p>
 					<br><br>
-
 					<?php if($sess): ?>
-							<form action="/Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
-								<textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
-								<input type="submit" value="Reply">
+							<form method="POST">
+								<textarea name="Answer" id="at" style="width:440px; height:100px;"></textarea><br>
+								<input type="button" value="Reply" onclick="ans(<?php echo $a->Q_Id; ?>)">
 			 				</form>
 							<form  method="POST">
-							<?php if(! $followed[0]): $t="Follow";?>
+							<?php
+							if(! $followed): $t="Follow";?>
 							<?php else:  $t="Unfollow";?>
 							<?php endif; ?>
-							<input type="button" onclick="chngfollowonques(<?php echo $a->Q_Id; ?>)" id="sd" value="<?php echo $t;?>" >
+							<input type="button" onclick="chngfollowonques(<?php echo $a->Q_Id; ?>)" id="ques" value="<?php echo $t;?>" >
 							</form>
 				 <?php endif; ?>
 				 </div>

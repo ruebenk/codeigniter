@@ -27,19 +27,6 @@
                echo $ans[$o]->Name;
              }   $o=$o+1;?>
 
-             <?php if($sess):?>
-                      <form action="Home/answer/<?php echo $a->Q_Id; ?>" method="POST">
-                        <textarea name="Answer" style="width:440px; height:100px;"></textarea><br>
-                        <input type="submit" value="Reply">
-                      </form>
-                      </form>
-                      <form  method="POST">
-                      <?php if(! $a->ans2): $t="Follow";?>
-                      <?php else:  $t="Unfollow";?>
-                      <?php endif; ?>
-                      <input type="button" onclick="chngfollowonques(<?php echo $a->Q_Id; ?>)" id="sd" value="<?php echo $t;?>" >
-                      </form>
-              <?php endif;?>
        </div>
       <?php }?>
     </div>
